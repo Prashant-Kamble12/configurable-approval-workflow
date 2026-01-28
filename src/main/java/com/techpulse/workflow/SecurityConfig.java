@@ -18,7 +18,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Tells Spring: "Don't look for encrypted passwords, just check plain text"
+       
         return NoOpPasswordEncoder.getInstance();
     }
 

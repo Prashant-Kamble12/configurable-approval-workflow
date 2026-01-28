@@ -13,7 +13,7 @@ public class User {
 
     private String username;
     private String password;
-    private String role; // e.g., "REQUESTER", "APPROVER", "ADMIN"
+    private String role; 
 	public void setUsername(String name) {
 		username = name;
 	}

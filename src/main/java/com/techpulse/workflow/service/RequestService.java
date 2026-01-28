@@ -17,10 +17,10 @@ public class RequestService {
     @Autowired private ApprovalHistoryRepository historyRepo;
     @Autowired private UserRepository userRepo;
 
-    // --- 1. Create a New Request ---
+   
     @Transactional
     public Request createRequest(Long userId, String requestType) {
-        // Validation: Does this workflow exist?
+       
         if (stepRepo.findByRequestTypeAndStepOrder(requestType, 1).isEmpty()) {
             throw new RuntimeException("Workflow not defined for type: " + requestType);
         }
@@ -29,13 +29,13 @@ public class RequestService {
         req.setCreatedBy(userId);
         req.setType(requestType);
         req.setStatus("PENDING");
-        req.setCurrentStep(1); // Always start at Step 1
+        req.setCurrentStep(1);
         req.setCreatedAt(LocalDateTime.now());
         
         return requestRepo.save(req);
     }
 
-    // --- 2. Process Approval ---
+ 
     @Transactional
     public void approveRequest(Long requestId, Long approverId) {
         Request req = requestRepo.findById(requestId)
@@ -43,16 +43,16 @@ public class RequestService {
         User approver = userRepo.findById(approverId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // RULE: Requester cannot approve their own request
+       
         if (req.getCreatedBy().equals(approverId)) {
             throw new RuntimeException("You cannot approve your own request!");
         }
 
-        // 1. Find the rule for the CURRENT step
+        
         ApprovalStep currentRule = stepRepo.findByRequestTypeAndStepOrder(req.getType(), req.getCurrentStep())
                 .orElseThrow(() -> new RuntimeException("Configuration error: Step not found"));
 
-        // 2. Check Authorization (Role Match OR Admin Override)
+      
         boolean isAuthorized = approver.getRole().equals(currentRule.getRole()) 
                                || approver.getRole().equals("ROLE_ADMIN");
 
@@ -60,7 +60,7 @@ public class RequestService {
             throw new RuntimeException("You are not authorized to approve this step.");
         }
 
-        // 3. Log the Action (Audit History)
+      
         ApprovalHistory history = new ApprovalHistory();
         history.setRequest(req);
         history.setAction("APPROVE");
@@ -68,20 +68,19 @@ public class RequestService {
         history.setActionAt(LocalDateTime.now());
         historyRepo.save(history);
 
-        // 4. Move to Next Step OR Finish
-        // Check if there is a next step
+       
         boolean hasNextStep = stepRepo.findByRequestTypeAndStepOrder(req.getType(), req.getCurrentStep() + 1).isPresent();
 
         if (hasNextStep) {
-            req.setCurrentStep(req.getCurrentStep() + 1); // Move to next step
+            req.setCurrentStep(req.getCurrentStep() + 1); 
         } else {
-            req.setStatus("APPROVED"); // Workflow complete!
+            req.setStatus("APPROVED");
         }
 
         requestRepo.save(req);
     }
     
-    // --- 3. Get Request Details ---
+   
     public Request getRequest(Long id) {
         return requestRepo.findById(id).orElse(null);
     }

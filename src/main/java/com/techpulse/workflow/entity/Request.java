@@ -13,19 +13,19 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")        // Matches PDF: type[span_6](end_span)
-    private String type;          // e.g., "LEAVE", "EXPENSE"
+    @Column(name = "type")       
+    private String type;         
 
-    @Column(name = "status")      // Matches PDF: status[span_7](end_span)
-    private String status;        // e.g., "PENDING", "APPROVED"
+    @Column(name = "status")    
+    private String status;      
 
     @Column(name = "current_step")
-    private Integer currentStep;  // Tracks which step of the workflow we are on
+    private Integer currentStep; 
 
-    @Column(name = "created_by")  // Matches PDF: created_by[span_8](end_span)
-    private Long createdBy;       // User ID
+    @Column(name = "created_by")  
+    private Long createdBy;     
 
-    @Column(name = "created_at")  // Matches PDF: created_at[span_9](end_span)
+    @Column(name = "created_at") 
     private LocalDateTime createdAt;
 
 	public void setCreatedBy(Long userId) {

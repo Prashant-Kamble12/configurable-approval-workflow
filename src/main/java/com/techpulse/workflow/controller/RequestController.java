@@ -27,27 +27,27 @@ public class RequestController {
         return user.getId();
     }
 
-    // --- 1. Create Request ---
+    
     @PostMapping
     public Request createRequest(@RequestBody Map<String, String> payload) {
         String type = payload.get("type");
         return requestService.createRequest(getCurrentUserId(), type);
     }
 
-    // --- 2. Approve Request ---
+ 
     @PostMapping("/{id}/approve")
     public String approveRequest(@PathVariable Long id) {
         requestService.approveRequest(id, getCurrentUserId());
         return "Request " + id + " approved successfully!";
     }
 
-    // --- 3. GET ALL Requests (This fixes the 405 Error!) ---
+
     @GetMapping
     public List<Request> getAllRequests() {
         return requestService.getAllRequests();
     }
 
-    // --- 4. Get Single Request ---
+   
     @GetMapping("/{id}")
     public Request getRequest(@PathVariable Long id) {
         return requestService.getRequest(id);

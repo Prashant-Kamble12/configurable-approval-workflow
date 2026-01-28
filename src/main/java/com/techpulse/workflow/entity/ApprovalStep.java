@@ -12,13 +12,13 @@ public class ApprovalStep {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "request_type") // Matches PDF: request_type[span_3](end_span)
+    @Column(name = "request_type") 
     private String requestType; 
 
-    @Column(name = "step_order")   // Matches PDF: step_order[span_4](end_span)
+    @Column(name = "step_order")  
     private Integer stepOrder;
 
-    @Column(name = "role_required") // Matches PDF: role[span_5](end_span)
+    @Column(name = "role_required") 
     private String role;
 
 	public void setRequestType(String type) {

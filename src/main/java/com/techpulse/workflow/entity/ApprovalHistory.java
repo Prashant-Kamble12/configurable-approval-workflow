@@ -14,16 +14,16 @@ public class ApprovalHistory {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "request_id") // Matches PDF: request_id[span_11](end_span)
+    @JoinColumn(name = "request_id") 
     private Request request;
 
-    @Column(name = "action")         // Matches PDF: action[span_12](end_span)
-    private String action;           // e.g., "APPROVE", "REJECT"
+    @Column(name = "action")         
+    private String action;           
 
-    @Column(name = "action_by")      // Matches PDF: action_by[span_13](end_span)
-    private Long actionBy;           // User ID
+    @Column(name = "action_by")   
+    private Long actionBy;          
 
-    @Column(name = "action_at")      // Matches PDF: action_at[span_14](end_span)
+    @Column(name = "action_at")     
     private LocalDateTime actionAt;
 
 	public void setRequest(Request req) {
